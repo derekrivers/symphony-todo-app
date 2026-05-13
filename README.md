@@ -15,9 +15,35 @@ Key artifacts:
 - `src/`: React application scaffold with explicit domain boundaries and feature-based structure.
 - `.github/workflows/ci.yml`: base CI workflow.
 
-## Local commands
+## Setup and local commands
+
+Use Node.js and npm from your local development environment. From a fresh
+checkout, install project dependencies before starting the app:
+
+```sh
+npm install
+```
+
+Then start the Vite development server through the project script:
+
+```sh
+npm run dev
+```
+
+To expose the dev server on all network interfaces, pass Vite's host flag
+through the same npm script:
+
+```sh
+npm run dev -- --host 0.0.0.0
+```
+
+Do not run `vite` directly from a shell for normal local development. The npm
+scripts automatically resolve the Vite binary installed in `node_modules/.bin`,
+so a global `vite` installation is not required.
 
 - `npm run dev`: start the Vite dev server.
+- `npm run dev -- --host 0.0.0.0`: start the Vite dev server on all network
+  interfaces.
 - `npm run build`: type-check and create a production build.
 - `npm run lint`: run ESLint.
 - `npm test`: run Vitest.
