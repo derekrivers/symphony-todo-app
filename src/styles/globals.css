@@ -211,6 +211,14 @@ a:focus-visible {
   color: #253025;
   background: #ffffff;
   border-color: #d7ddd3;
+  transition:
+    background-color 140ms ease,
+    border-color 140ms ease;
+}
+
+.panel-stack .filter-button:hover:not([data-active="true"]) {
+  background: #eef1ea;
+  border-color: #c8d0c2;
 }
 
 .filter-button[data-active="true"] {
