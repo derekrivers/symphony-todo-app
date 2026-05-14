@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { Pencil, Trash2 } from "lucide-react";
 
 import type { Task, TaskDraft } from "../types/taskTypes";
 import { formatDueDate, isOverdue } from "../utils/taskDates";
@@ -75,20 +76,22 @@ export function TaskItem({
 
       <div className="task-actions">
         <button
+          title={`Edit ${task.title}`}
           aria-label={`Edit ${task.title}`}
           className="icon-button"
           onClick={() => setIsEditing(true)}
           type="button"
         >
-          Edit
+          <Pencil size={16} aria-hidden="true" />
         </button>
         <button
+          title={`Delete ${task.title}`}
           aria-label={`Delete ${task.title}`}
           className="icon-button danger"
           onClick={() => onDelete(task.id)}
           type="button"
         >
-          Delete
+          <Trash2 size={16} aria-hidden="true" />
         </button>
       </div>
     </li>

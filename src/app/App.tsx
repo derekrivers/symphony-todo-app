@@ -18,6 +18,12 @@ export function App() {
   const [sort, setSort] = useState<TaskSort>("smart");
 
   const visibleTasks = useFilteredTasks(tasks, filter, searchQuery, sort);
+  const completedTasks = tasks.filter((task) => task.completed).length;
+  const activeTasks = tasks.length - completedTasks;
+  const highPriorityTasks = tasks.filter((task) => task.priority === "high").length;
+  const completionRate = tasks.length
+    ? Math.round((completedTasks / tasks.length) * 100)
+    : 0;
   const categories = useMemo(
     () =>
       Array.from(
@@ -28,25 +34,79 @@ export function App() {
 
   return (
     <AppLayout>
-      <section className="entry-panel" aria-labelledby="create-task-heading">
+      <section className="page-heading" aria-labelledby="dashboard-heading">
         <div>
-          <p className="eyebrow">Today</p>
-          <h1 id="create-task-heading">Symphony Todo</h1>
+          <p className="eyebrow">Task dashboard</p>
+          <h1 id="dashboard-heading">Today</h1>
+          <p className="page-description">
+            Plan the day, track priority work, and keep completed tasks in view.
+          </p>
         </div>
-        <TaskForm categories={categories} onSubmit={addTask} />
+        <div className="heading-metrics" aria-label="Today summary">
+          <span>
+            <strong>{activeTasks}</strong>
+            Active
+          </span>
+          <span>
+            <strong>{completionRate}%</strong>
+            Complete
+          </span>
+          <span>
+            <strong>{highPriorityTasks}</strong>
+            High priority
+          </span>
+        </div>
+      </section>
+
+      <section className="overview-grid" aria-label="Task overview">
+        <TaskStats tasks={tasks} />
       </section>
 
       <section className="workspace" aria-label="Task workspace">
-        <aside className="sidebar" aria-label="Task summary and filters">
-          <TaskStats tasks={tasks} />
-          <TaskFilters
-            activeFilter={filter}
-            onFilterChange={setFilter}
-            tasks={tasks}
-          />
+        <aside className="sidebar" aria-label="Task controls">
+          <section
+            className="panel-card create-panel"
+            id="create-task"
+            aria-labelledby="create-task-heading"
+          >
+            <div className="panel-heading">
+              <div>
+                <p className="eyebrow">New task</p>
+                <h2 id="create-task-heading">Capture work</h2>
+              </div>
+            </div>
+            <TaskForm categories={categories} onSubmit={addTask} />
+          </section>
+
+          <section
+            className="panel-card"
+            id="task-filters"
+            aria-labelledby="task-filter-heading"
+          >
+            <div className="panel-heading">
+              <div>
+                <p className="eyebrow">Views</p>
+                <h2 id="task-filter-heading">Filters</h2>
+              </div>
+            </div>
+            <TaskFilters
+              activeFilter={filter}
+              onFilterChange={setFilter}
+              tasks={tasks}
+            />
+          </section>
         </aside>
 
-        <main className="task-area">
+        <main className="task-area" id="tasks">
+          <div className="section-heading">
+            <div>
+              <p className="eyebrow">Task list</p>
+              <h2>Workspace</h2>
+            </div>
+            <span className="result-count">
+              {visibleTasks.length} of {tasks.length}
+            </span>
+          </div>
           <div className="task-toolbar">
             <TaskSearch
               searchQuery={searchQuery}
