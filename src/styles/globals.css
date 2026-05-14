@@ -135,9 +135,17 @@ a:focus-visible {
 .task-form,
 .form-grid,
 .field,
-.search-field {
+.search-field,
+.sort-field {
   display: grid;
   gap: 10px;
+}
+
+.task-toolbar {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) minmax(160px, 220px);
+  gap: 16px;
+  align-items: end;
 }
 
 .form-grid {
@@ -398,6 +406,10 @@ a:focus-visible {
   }
 
   .task-card {
+    grid-template-columns: 1fr;
+  }
+
+  .task-toolbar {
     grid-template-columns: 1fr;
   }
 
