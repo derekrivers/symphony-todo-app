@@ -1,4 +1,5 @@
 import { type FormEvent, useState } from "react";
+import { Plus, Save, X } from "lucide-react";
 
 import type { TaskDraft, TaskPriority } from "../types/taskTypes";
 
@@ -27,6 +28,8 @@ export function TaskForm({
 }: TaskFormProps) {
   const [draft, setDraft] = useState<TaskDraft>(initialValue ?? emptyDraft);
   const [error, setError] = useState("");
+  const isSaving = submitLabel.toLowerCase().includes("save");
+  const SubmitIcon = isSaving ? Save : Plus;
 
   function updateField<Key extends keyof TaskDraft>(
     key: Key,
@@ -124,10 +127,12 @@ export function TaskForm({
       <div className="form-actions">
         {onCancel ? (
           <button className="button secondary" onClick={onCancel} type="button">
+            <X size={16} aria-hidden="true" />
             Cancel
           </button>
         ) : null}
         <button className="button primary" type="submit">
+          <SubmitIcon size={16} aria-hidden="true" />
           {submitLabel}
         </button>
       </div>

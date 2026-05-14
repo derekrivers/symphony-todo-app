@@ -1,3 +1,5 @@
+import { ArrowDownUp } from "lucide-react";
+
 import type { TaskSort } from "../types/taskTypes";
 
 interface TaskSortSelectProps {
@@ -20,18 +22,21 @@ export function TaskSortSelect({
   return (
     <label className="sort-field" htmlFor="sort">
       <span className="field-label">Sort</span>
-      <select
-        className="select"
-        id="sort"
-        onChange={(event) => onSortChange(event.target.value as TaskSort)}
-        value={activeSort}
-      >
-        {sortOptions.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
+      <span className="select-shell">
+        <ArrowDownUp size={16} aria-hidden="true" />
+        <select
+          className="select"
+          id="sort"
+          onChange={(event) => onSortChange(event.target.value as TaskSort)}
+          value={activeSort}
+        >
+          {sortOptions.map((option) => (
+            <option key={option.value} value={option.value}>
+              {option.label}
+            </option>
+          ))}
+        </select>
+      </span>
     </label>
   );
 }

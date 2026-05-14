@@ -62,4 +62,20 @@ describe("App", () => {
     await user.click(screen.getByRole("button", { name: /delete draft review/i }));
     expect(screen.queryByText("Draft review")).toBeNull();
   });
+
+  it("supports the dashboard shell controls", async () => {
+    const user = userEvent.setup();
+
+    render(<App />);
+
+    expect(screen.getByRole("navigation", { name: "Primary" })).toBeTruthy();
+
+    const searchInput = screen.getByLabelText("Search");
+    await user.click(screen.getByRole("button", { name: /search tasks/i }));
+    expect(document.activeElement).toBe(searchInput);
+
+    await user.click(screen.getByRole("button", { name: /dark/i }));
+    expect(document.documentElement.dataset.theme).toBe("dark");
+    expect(window.localStorage.getItem("symphony.todo.theme")).toBe("dark");
+  });
 });
