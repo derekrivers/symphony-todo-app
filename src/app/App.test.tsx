@@ -17,7 +17,7 @@ describe("App", () => {
   it("supports the core task walkthrough and persists tasks", async () => {
     const user = userEvent.setup();
 
-    const { unmount } = render(<App />);
+    const { container, unmount } = render(<App />);
 
     await user.type(screen.getByLabelText("Title"), "Draft review");
     await user.selectOptions(screen.getByLabelText("Priority"), "high");
@@ -39,7 +39,21 @@ describe("App", () => {
     expect(screen.getByText("Draft review")).toBeTruthy();
 
     await user.type(screen.getByLabelText("Search"), "scaffold");
+    await user.selectOptions(screen.getByLabelText("Sort"), "priority");
     expect(screen.getByText("Draft review")).toBeTruthy();
+
+    const toolbar = container.querySelector(".task-toolbar");
+    const taskList = container.querySelector(".task-list");
+    expect(screen.getByLabelText("Search").closest(".task-toolbar")).toBe(
+      toolbar,
+    );
+    expect(screen.getByLabelText("Sort").closest(".task-toolbar")).toBe(
+      toolbar,
+    );
+    expect(
+      toolbar?.compareDocumentPosition(taskList as Element) ??
+        Node.DOCUMENT_POSITION_PRECEDING,
+    ).toBe(Node.DOCUMENT_POSITION_FOLLOWING);
 
     unmount();
     render(<App />);
