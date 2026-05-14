@@ -4,6 +4,7 @@ import { TaskFilters } from "../features/tasks/components/TaskFilters";
 import { TaskForm } from "../features/tasks/components/TaskForm";
 import { TaskList } from "../features/tasks/components/TaskList";
 import { TaskSearch } from "../features/tasks/components/TaskSearch";
+import { TaskSortSelect } from "../features/tasks/components/TaskSortSelect";
 import { TaskStats } from "../features/tasks/components/TaskStats";
 import { useFilteredTasks } from "../features/tasks/hooks/useFilteredTasks";
 import { useTasks } from "../features/tasks/stores/taskStore";
@@ -40,18 +41,19 @@ export function App() {
           <TaskStats tasks={tasks} />
           <TaskFilters
             activeFilter={filter}
-            activeSort={sort}
             onFilterChange={setFilter}
-            onSortChange={setSort}
             tasks={tasks}
           />
         </aside>
 
         <main className="task-area">
-          <TaskSearch
-            searchQuery={searchQuery}
-            onSearchChange={setSearchQuery}
-          />
+          <div className="task-toolbar">
+            <TaskSearch
+              searchQuery={searchQuery}
+              onSearchChange={setSearchQuery}
+            />
+            <TaskSortSelect activeSort={sort} onSortChange={setSort} />
+          </div>
           <TaskList
             tasks={visibleTasks}
             onDelete={deleteTask}

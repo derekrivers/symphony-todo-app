@@ -1,11 +1,9 @@
-import type { Task, TaskFilter, TaskSort } from "../types/taskTypes";
+import type { Task, TaskFilter } from "../types/taskTypes";
 import { countByFilter } from "../utils/taskFilters";
 
 interface TaskFiltersProps {
   activeFilter: TaskFilter;
-  activeSort: TaskSort;
   onFilterChange: (filter: TaskFilter) => void;
-  onSortChange: (sort: TaskSort) => void;
   tasks: Task[];
 }
 
@@ -18,19 +16,9 @@ const filterOptions: Array<{ label: string; value: TaskFilter }> = [
   { label: "High", value: "high" },
 ];
 
-const sortOptions: Array<{ label: string; value: TaskSort }> = [
-  { label: "Smart", value: "smart" },
-  { label: "Due date", value: "dueDate" },
-  { label: "Priority", value: "priority" },
-  { label: "Newest", value: "createdAt" },
-  { label: "A-Z", value: "alphabetical" },
-];
-
 export function TaskFilters({
   activeFilter,
-  activeSort,
   onFilterChange,
-  onSortChange,
   tasks,
 }: TaskFiltersProps) {
   return (
@@ -49,22 +37,6 @@ export function TaskFilters({
           </button>
         ))}
       </div>
-
-      <label className="field-label" htmlFor="sort">
-        Sort
-      </label>
-      <select
-        className="select"
-        id="sort"
-        onChange={(event) => onSortChange(event.target.value as TaskSort)}
-        value={activeSort}
-      >
-        {sortOptions.map((option) => (
-          <option key={option.value} value={option.value}>
-            {option.label}
-          </option>
-        ))}
-      </select>
     </div>
   );
 }
